@@ -36,5 +36,6 @@ function serve() {
   
   watch('src/**.html', series(htmlInclude)).on('change',sync.reload)
   watch('src/scss/**.scss', series(scss)).on('change',sync.reload)
+  watch('src/components/**/**.scss', series(scss)).on('change',sync.reload)
 }
 exports.serve = series(clear, scss, htmlInclude, serve);

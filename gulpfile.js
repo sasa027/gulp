@@ -25,7 +25,6 @@ function scss(){
     .pipe(csso())
     .pipe(concat('style.css'))
     .pipe(dest('dist/css'))
-
 }
 function clear(){
   return del('dist')
@@ -39,6 +38,3 @@ function serve() {
   watch('src/scss/**.scss', series(scss)).on('change',sync.reload)
 }
 exports.serve = series(clear, scss, htmlInclude, serve);
-exports.clear = clear;
-exports.htmlInclude = htmlInclude;
-exports.scss = scss;

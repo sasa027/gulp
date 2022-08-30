@@ -2,10 +2,10 @@ const { src, dest, series, watch } = require('gulp');
 const include = require('gulp-file-include');
 const sass = require('gulp-sass')(require('sass'));
 const csso = require('gulp-csso');
-const sync = require('browser-sync').create();
 const htmlmin = require('gulp-htmlmin');
 const concat = require('gulp-concat');
 const del = require('del');
+const sync = require('browser-sync').create()
 
 function htmlInclude() {
   return src('src/**.html')
@@ -18,7 +18,7 @@ function htmlInclude() {
     .pipe(dest('dist'))
 }
 function scss(){
-  return src('src/scss/**.scss')
+  return src('src/scss/style.scss')
     .pipe(sass())
     .pipe(csso())
     .pipe(concat('style.css'))
@@ -27,6 +27,10 @@ function scss(){
 function clear(){
   return del('dist')
 }
+function imgs(){
+  return src('src/img/**/**/**.**')
+    .pipe(dest('dist/img/'))
+}
 function serve() {
   sync.init({
     server:'./dist'
@@ -34,6 +38,8 @@ function serve() {
   
   watch('src/**.html', series(htmlInclude)).on('change',sync.reload)
   watch('src/scss/**.scss', series(scss)).on('change',sync.reload)
-  watch('src/components/**/**.**', series(clear,scss, htmlInclude)).on('change',sync.reload)
+  watch('src/html/', series(htmlInclude)).on('change',sync.reload)
 }
-exports.serve = series(clear, scss, htmlInclude, serve);
+exports.dev = series(clear,imgs, scss, htmlInclude, serve);
+exports.imgs  = (imgs)
+exports.clear  = (clear)

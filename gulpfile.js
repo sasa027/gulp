@@ -31,6 +31,10 @@ function imgs(){
   return src('src/img/**/**/**.**')
     .pipe(dest('dist/img/'))
 }
+function fonts(){
+  return src('src/scss/fonts/**.**')
+    .pipe(dest('dist/css/fonts'))
+}
 function serve() {
   sync.init({
     server:'./dist'
@@ -40,6 +44,6 @@ function serve() {
   watch('src/scss/**.scss', series(scss)).on('change',sync.reload)
   watch('src/html/', series(htmlInclude)).on('change',sync.reload)
 }
-exports.dev = series(clear,imgs, scss, htmlInclude, serve);
+exports.dev = series(clear,imgs, scss, htmlInclude,fonts, serve);
 exports.imgs  = (imgs)
 exports.clear  = (clear)
